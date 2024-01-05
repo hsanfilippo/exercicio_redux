@@ -14,26 +14,20 @@ const favoritosSlice = createSlice({
   name: 'favoritos',
   initialState,
   reducers: {
-    addFavoritos: (state, action: PayloadAction<Produto>) => {
+    addOuRemoveFavoritos: (state, action: PayloadAction<Produto>) => {
       const produto = action.payload
+      const indexDoProduto = state.itens.findIndex((p) => p.id === produto.id)
 
-      if (state.itens.find((p) => p.id === produto.id)) {
-        alert('item já adicionado')
+      if (indexDoProduto !== -1) {
+        console.log('produto "', produto.id, '"', 'removido dos favoritos')
+        state.itens.splice(indexDoProduto, 1)
       } else {
+        console.log('produto "', produto.id, '"', 'adicionado aos favoritos')
         state.itens.push(produto)
       }
     }
   }
 })
 
-export const { addFavoritos } = favoritosSlice.actions
+export const { addOuRemoveFavoritos } = favoritosSlice.actions
 export default favoritosSlice.reducer
-
-// function favoritar(produto: Produto) {
-//   if (favoritos.find((p) => p.id === produto.id)) {
-//     const favoritosSemProduto = favoritos.filter((p) => p.id !== produto.id)
-//     setFavoritos(favoritosSemProduto)
-//   } else {
-//     setFavoritos([...favoritos, produto])
-//   }
-// }
